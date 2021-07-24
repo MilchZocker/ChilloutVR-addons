@@ -2,9 +2,6 @@
 
 :: CONFIGURATION
 set config_download_unhollower=true
-ren "ChilloutVR.exe" "ChilloutVR-orig.exe"
-ren "ChilloutVR_Data" "ChilloutVR-orig_Data"
-ren "OpenVR DLL with AMD FidelityFX for CVR Installer.exe" "ChilloutVR.exe"
 :: Installer
 
 CLS
@@ -43,7 +40,11 @@ IF '%choice%'=='' GOTO no
 :: Go to "UIResources"
 
 :skip
-cd /d "ChilloutVR_Data\Plugins\x86_64"
+ren "ChilloutVR.exe" "ChilloutVR-orig.exe"
+ren "ChilloutVR_Data" "ChilloutVR-orig_Data"
+ren "OpenVR DLL with AMD FidelityFX for CVR Installer.exe" "ChilloutVR.exe"
+Set CVRpath=%cd%
+cd /d "ChilloutVR-orig_Data\Plugins\x86_64"
 )
 :: Download 7zip.
 
@@ -98,6 +99,7 @@ echo ^    --------------------------------------------------
 echo [0m
 echo:
 echo:
+cd %CVRpath%
 start ChilloutVR-orig.exe
 TIMEOUT /T 6
 exit
