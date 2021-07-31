@@ -1,9 +1,7 @@
-@echo off
+@ECHO OFF
 
 :: CONFIGURATION
-
 set config_download_unhollower=true
-
 :: Installer
 
 CLS
@@ -21,7 +19,7 @@ echo ^    ^|  ChilloutVR Modified OpenVR DLL with AMD FidelityFX SuperResolution
 echo:
 
 :: Is ChilloutVR Folder?
-
+:CVR?
 echo [33m---------------------- Pre-Setup -----------------------[0m
 
 IF NOT exist "ChilloutVR_Data" (
@@ -29,7 +27,7 @@ IF NOT exist "ChilloutVR_Data" (
 	echo It seems that this folder isn't the ChilloutVR Game Folder.
 
 SET choice=
-SET /p choice=Should we Search for the ChilloutVR Folder? That Could Take a Long Time you should move this installer into the ChilloutVR Folder if you dont want to wait. [N][Y]: 
+SET /p choice=Should we Search for the ChilloutVR Folder? That Could Take a Long Time you should move this installer into the ChilloutVR Folder if you dont want to wait. [N][Y]
 )
 IF NOT exist "ChilloutVR_Data" (
 IF NOT '%choice%'=='' SET choice=%choice:~0,1%
@@ -39,53 +37,89 @@ IF '%choice%'=='N' GOTO no
 IF '%choice%'=='n' GOTO no
 IF '%choice%'=='' GOTO no
 )
-:: Go to "UIResources"
+:: Go to "Plugins\x86_64"
 
 :skip
 cd /d "ChilloutVR_Data\Plugins\x86_64"
 )
-:: Download 7zip.
 
-::echo Downloading 7zip...
-::powershell -Command "Invoke-WebRequest https://github.com/Slaynash/MelonLoaderAutoInstaller/raw/master/7z.exe -OutFile 7z.exe"
-::powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/Slaynash/MelonLoaderAutoInstaller/master/7z.dll -OutFile 7z.dll"
-::echo:
-
+:: Checking OS Version
+echo ^    --------------------------------------------------
+echo ^    ^|				Checking for OS!			 ^|
+echo ^    --------------------------------------------------
+if OS == Win10 then
+ TIMEOUT /T 2
+ CLS
+ GOTO win10
+else
+ TIMEOUT /T 2
+ CLS
+ GOTO COS
+)
 :: Download openvr_fsr release from Github.
 
+:win10
 echo ^    --------------------------------------------------
 echo ^    ^|			Now installing Files...			 ^|
 echo ^    --------------------------------------------------
-curl --limit-rate 4m -L "https://github.com/fholger/openvr_fsr/releases/latest/download/openvr_fsr_rc2.zip" -o "openvr.zip"
-if %errorlevel% neq 0 ( 
-echo An error occurred!
-echo This error will effect the Game, Installer will now Close!
-pause
-exit
 )
+curl --limit-rate 4m -L "https://github.com/fholger/openvr_fsr/releases/latest/download/openvr_fsr_v1.0.zip" -o "openvr.zip"
+if %errorlevel% neq 0 (
+	echo [31m
+	echo CRITICAL ERROR: Failed to download the openvr.zip zip file.
+	echo Please report this error to the UCC^).
+	echo [0m
+	pause
+	exit /b %errorlevel%
+   )
+echo ^ openvr.zip Succesfull Installed!
+)
+TIMEOUT /T 3
+CLS
+goto unzip
+)
+:COS
+echo ^    --------------------------------------------------
+echo ^    ^|			Now installing Files...			 ^|
+echo ^    --------------------------------------------------
+)
+powershell -Command "Invoke-WebRequest "https://github.com/fholger/openvr_fsr/releases/latest/download/openvr_fsr_v1.0.zip" -OutFile "openvr.zip"
+if %errorlevel% neq 0 (
+	echo [31m
+	echo CRITICAL ERROR: Failed to download the openvr.zip zip file.
+	echo Please report this error to the UCC^).
+	echo [0m
+	pause
+	exit /b %errorlevel%
+   )
+echo ^ openvr.zip Succesfull Installed!
+)
+TIMEOUT /T 3
+CLS
+goto unzip
+)
+:unzip
 :: Decompress .zip.
 )
 echo Decompressing openvr.zip...
 powershell Expand-Archive openvr.zip -DestinationPath . -Force
 if %errorlevel% neq 0 (
 	echo [31m
-	echo CRITICAL ERROR: Failed to extract the UI zip file.
+	echo CRITICAL ERROR: Failed to extract the openvr.zip zip file.
 	echo Please report this error to the UCC^).
 	echo [0m
 	pause
 	exit /b %errorlevel%
    )
-:: Delete .zip.
-	
-del /Q /F /S openvr.zip
+echo ^ openvr.zip Succesfull Extracted!
 )
-
-
+TIMEOUT /T 3
+CLS
 :: Cleanup Unused Files.
 )
 echo [33m-------------------- Final Cleanup ---------------------[0m
 del /Q /F /S openvr.zip
-   )
+)
 :: Installation Finished.
 )
 echo:
