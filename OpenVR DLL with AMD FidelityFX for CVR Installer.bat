@@ -38,7 +38,6 @@ IF '%choice%'=='n' GOTO no
 IF '%choice%'=='' GOTO no
 )
 :: Create Directory for storage
-
 :skip
 if not exist "UCC\FSR" md "UCC" "UCC\FSR"
 cd "UCC\FSR"
@@ -68,8 +67,6 @@ CLS
 echo [33m-------------------- Final Cleanup ---------------------[0m
 del /Q /F /S dl_latest_release.ps1
 cd ..\..
-echo %cd%
-pause
 move /Y "UCC\FSR"\*.* "ChilloutVR_Data\Plugins\x86_64"
 )
 :: Installation Finished.
