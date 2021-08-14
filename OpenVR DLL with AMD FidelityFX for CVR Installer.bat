@@ -37,88 +37,40 @@ IF '%choice%'=='N' GOTO no
 IF '%choice%'=='n' GOTO no
 IF '%choice%'=='' GOTO no
 )
-:: Go to "Plugins\x86_64"
+:: Create Directory for storage
 
 :skip
-cd /d "ChilloutVR_Data\Plugins\x86_64"
+if not exist "UCC\FSR" md "UCC" "UCC\FSR"
+cd "UCC\FSR"
 )
-
-:: Checking OS Version
+:: Download openvr_fsr powershell extention.
 echo ^    --------------------------------------------------
-echo ^    ^|				Checking for OS!			 ^|
+echo ^    ^|			Now installing Files...			 ^|
 echo ^    --------------------------------------------------
-if OS == Win10 then
- TIMEOUT /T 2
- CLS
- GOTO win10
-else
- TIMEOUT /T 2
- CLS
- GOTO COS
 )
+powershell -Command "Invoke-WebRequest "https://raw.githubusercontent.com/MilchZocker/ChilloutVR-addons/OpenVR-DLL-with-AMD-FidelityFX-for-CVR-Installer/dl_latest_release.ps1" -OutFile "dl_latest_release.ps1"
+if %errorlevel% neq 0 (
+	echo [31m
+	echo CRITICAL ERROR: Failed to download the openvr_fsr powershell extention zip file.
+	echo Please report this error to the UCC^).
+	echo [0m
+	pause
+	exit /b %errorlevel%
+   )
+echo ^ openvr_fsr powershell extention Succesfull Installed!
 :: Download openvr_fsr release from Github.
-
-:win10
-echo ^    --------------------------------------------------
-echo ^    ^|			Now installing Files...			 ^|
-echo ^    --------------------------------------------------
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""E:\Program Files\Steam\steamapps\common\ChilloutVR\dl_latest_release.ps1""' }"
 )
-curl --limit-rate 4m -L "https://github.com/fholger/openvr_fsr/releases/latest/download/openvr_fsr_v1.0.zip" -o "openvr.zip"
-if %errorlevel% neq 0 (
-	echo [31m
-	echo CRITICAL ERROR: Failed to download the openvr.zip zip file.
-	echo Please report this error to the UCC^).
-	echo [0m
-	pause
-	exit /b %errorlevel%
-   )
-echo ^ openvr.zip Succesfull Installed!
-)
-TIMEOUT /T 3
-CLS
-goto unzip
-)
-:COS
-echo ^    --------------------------------------------------
-echo ^    ^|			Now installing Files...			 ^|
-echo ^    --------------------------------------------------
-)
-powershell -Command "Invoke-WebRequest "https://github.com/fholger/openvr_fsr/releases/latest/download/openvr_fsr_v1.0.zip" -OutFile "openvr.zip"
-if %errorlevel% neq 0 (
-	echo [31m
-	echo CRITICAL ERROR: Failed to download the openvr.zip zip file.
-	echo Please report this error to the UCC^).
-	echo [0m
-	pause
-	exit /b %errorlevel%
-   )
-echo ^ openvr.zip Succesfull Installed!
-)
-TIMEOUT /T 3
-CLS
-goto unzip
-)
-:unzip
-:: Decompress .zip.
-)
-echo Decompressing openvr.zip...
-powershell Expand-Archive openvr.zip -DestinationPath . -Force
-if %errorlevel% neq 0 (
-	echo [31m
-	echo CRITICAL ERROR: Failed to extract the openvr.zip zip file.
-	echo Please report this error to the UCC^).
-	echo [0m
-	pause
-	exit /b %errorlevel%
-   )
-echo ^ openvr.zip Succesfull Extracted!
-)
-TIMEOUT /T 3
+TIMEOUT /T 5
 CLS
 :: Cleanup Unused Files.
 )
 echo [33m-------------------- Final Cleanup ---------------------[0m
-del /Q /F /S openvr.zip
+del /Q /F /S dl_latest_release.ps1
+cd ..\..
+echo %cd%
+pause
+move /Y "UCC\FSR"\*.* "ChilloutVR_Data\Plugins\x86_64"
 )
 :: Installation Finished.
 )

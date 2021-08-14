@@ -1,6 +1,6 @@
 $repo = "fholger/openvr_fsr"
 $filenamePattern = "*.zip"
-$pathExtract = "UCC\FSR\*"
+$pathExtract = "$pwd"
 $innerDirectory = $true
 $preRelease = $true
 
