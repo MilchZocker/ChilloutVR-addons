@@ -31,4 +31,3 @@ else {
 }
 
 Remove-Item $pathZip -Force
-pause
