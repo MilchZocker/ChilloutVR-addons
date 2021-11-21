@@ -15,13 +15,13 @@ CLS
 )
 echo [33m---------------------- Pre-Setup -----------------------[0m
 )
-if not exist "ChilloutVR-Dark-UI-Auto-Installers" mkdir ChilloutVR-Dark-UI-Auto-Installers
+if not exist "UCC\Custom-UI-Installer" mkdir UCC\Custom-UI-Installer
 )
 For /F %%A In ('
     MsHTA VBScript:Execute("Set o=CreateObject(""Scripting.FileSystemObject""):o.GetStandardStream(1).Write(o.GetFileVersion(""ChilloutVR.exe"")):Close"^)
 ') Do Set "CVR=%%A"
 echo current CVR executable version is %CVR%
-set current=2019.4.13.34615
+set current=2019.4.28.33174
 if %CVR%==%current% (
 goto current
 )
@@ -35,10 +35,8 @@ echo [33m---------------------- Select Custome UI Typ -----------------------[
 :: Selection of UI's
 
 SET choice=
-SET /p choice=Which UI you want to Install?. 1: MilchZockers [M] , 2: Slime's [S] , 3: Neradon's [N]: or 3: Deinstall Custom UI (could delete UI settings) [D]:
+SET /p choice=Which UI you want to Install?. 1: Slime's [S] , 2: Neradon's [N]: or 3: Deinstall Custom UI (could delete UI settings) [D]:
 IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='M' GOTO MilchZockers
-IF '%choice%'=='m' GOTO MilchZockers
 IF '%choice%'=='S' GOTO Slimes
 IF '%choice%'=='s' GOTO Slimes
 IF '%choice%'=='N' GOTO Neradons
@@ -46,21 +44,6 @@ IF '%choice%'=='n' GOTO Neradons
 IF '%choice%'=='D' GOTO Default
 IF '%choice%'=='d' GOTO Default
 IF '%choice%'=='' GOTO no
-)
-:MilchZockers
-echo [33m---------------------- Select UI Version -----------------------[0m
-)
-SET choice=
-SET /p choice=Which Version do you want to Install?. 1: Stable [S] or 2: Experimental [E]:
-IF NOT '%choice%'=='' SET choice=%choice:~0,1%
-IF '%choice%'=='E' GOTO Experimental-MilchZocker
-IF '%choice%'=='e' GOTO Experimental-MilchZocker
-IF '%choice%'=='S' GOTO Stable-MilchZocker
-IF '%choice%'=='s' GOTO Stable-MilchZocker
-IF '%choice%'=='' GOTO no
-)
-pause
-exit
 )
 :Slimes
 echo [33m---------------------- Select UI Version -----------------------[0m
@@ -93,65 +76,47 @@ IF '%choice%'=='' GOTO no
 pause
 exit
 )
-:Experimental-MilchZocker
-echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerExperimental.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UIInstallerExperimental.bat"
-echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UIInstallerExperimental.bat
-SET UI=UiInstallerExperimental
-goto CleanUP
-exit
-)
-:Stable-MilchZocker
-echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerStable.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UiInstallerStable.bat"
-echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UIInstallerStable.bat
-SET UI=UiInstallerStable
-goto CleanUP
-exit
-)
 :Experimental-Slime
 echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerExperimentalSlime.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UiInstallerExperimentalSlime.bat"
+powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerExperimentalSlime.bat -OutFile UCC\Custom-UI-Installer\UiInstallerExperimentalSlime.bat"
 echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UiInstallerExperimentalSlime.bat
+start /w UCC\Custom-UI-Installer\UiInstallerExperimentalSlime.bat
 SET UI=UiInstallerExperimentalSlime
 goto CleanUP
 exit
 )
 :Stable-Slime
 echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerStableSlime.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UiInstallerStableSlime.bat"
+powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerStableSlime.bat -OutFile UCC\Custom-UI-Installer\UiInstallerStableSlime.bat"
 echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UiInstallerStableSlime.bat
+start /w UCC\Custom-UI-Installer\UiInstallerStableSlime.bat
 SET UI=UiInstallerStableSlime
 goto CleanUP
 exit
 )
 :Experimental-Neradon
 echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerExperimentalNeradon.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UiInstallerExperimentalNeradon.bat"
+powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerExperimentalNeradon.bat -OutFile UCC\Custom-UI-Installer\UiInstallerExperimentalNeradon.bat"
 echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UiInstallerExperimentalNeradon.bat
+start /w UCC\Custom-UI-Installer\UiInstallerExperimentalNeradon.bat
 SET UI=UiInstallerExperimentalNeradon
 goto CleanUP
 exit
 )
 :Stable-Neradon
 echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerStableNeradon.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UiInstallerStableNeradon.bat"
+powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UiInstallerStableNeradon.bat -OutFile UCC\Custom-UI-Installer\UiInstallerStableNeradon.bat"
 echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UiInstallerStableNeradon.bat
+start /w UCC\Custom-UI-Installer\UiInstallerStableNeradon.bat
 SET UI=UiInstallerStableNeradon
 goto CleanUP
 exit
 )
 :Default
 echo Downloading Experimental UI Installer...
-powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UIInstallerStableDefault.bat -OutFile ChilloutVR-Dark-UI-Auto-Installers\UIInstallerStableDefault.bat"
+powershell -Command "Invoke-WebRequest https://raw.githubusercontent.com/MilchZocker/ChilloutVR-Dark-UI/Auto-Installers/UIInstallerStableDefault.bat -OutFile UCC\Custom-UI-Installer\UIInstallerStableDefault.bat"
 echo:
-start ChilloutVR-Dark-UI-Auto-Installers\UIInstallerStableDefault.bat
+start /w UCC\Custom-UI-Installer\UIInstallerStableDefault.bat
 SET UI=UIInstallerStableDefault
 goto CleanUP
 exit
@@ -176,11 +141,8 @@ exit
 )
 :no
 echo Installer will now close if you want to install an UI type the corresponding letter!
-del /Q /F "ChilloutVR-Dark-UI-Auto-Installers\*"
 TIMEOUT /T 10
-del /Q /F 7z.exe
-del /Q /F 7z.dll
-exit
+goto CleanUP
 )
 :not
 echo Installer will now close if you need any help join us on Discord: https://discord.gg/yApCk5atsa
@@ -190,10 +152,8 @@ exit
 :CleanUP
 )
 echo [33m-------------------- Final Cleanup ---------------------[0m
-del /Q /F 7z.exe
-del /Q /F 7z.dll
-attrib +R "ChilloutVR-Dark-UI-Auto-Installers\%UI%.bat"
-del /Q "ChilloutVR-Dark-UI-Auto-Installers\*"
+::attrib +R "Custom-UI-Installer\%UI%.bat"
+del /Q "UCC\Custom-UI-Installer\*"
 )
 TIMEOUT /T 3
 exit
