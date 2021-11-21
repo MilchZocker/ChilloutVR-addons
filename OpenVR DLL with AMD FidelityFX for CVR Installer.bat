@@ -58,9 +58,8 @@ if %errorlevel% neq 0 (
    )
 echo ^ openvr_fsr powershell extention Succesfull Installed!
 :: Download openvr_fsr release from Github.
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""E:\Program Files\Steam\steamapps\common\ChilloutVR\dl_latest_release.ps1""' }"
+start /w "" powershell.exe -executionpolicy remotesigned -noexit "& ".\dl_latest_release.ps1"
 )
-TIMEOUT /T 5
 CLS
 :: Cleanup Unused Files.
 )
