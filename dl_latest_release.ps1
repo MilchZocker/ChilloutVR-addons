@@ -32,4 +32,5 @@ else {
 
 Remove-Item $pathZip -Force
 
-exit 0
+Stop-Process -id $PID
+exit
