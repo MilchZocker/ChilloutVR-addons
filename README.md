@@ -1,4 +1,4 @@
-#CVR FSR Installer/Updater
+# CVR FSR Installer/Updater
 
 ### LICENSING & CREDITS:
 
